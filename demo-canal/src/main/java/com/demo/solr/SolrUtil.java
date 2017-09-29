@@ -1,15 +1,14 @@
 package com.demo.solr;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
-import org.apache.solr.client.solrj.impl.CloudSolrClient;
+import org.apache.solr.client.solrj.SolrRequest.METHOD;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
@@ -19,27 +18,29 @@ import org.slf4j.LoggerFactory;
 
 //import com.cmiot.rms.dao.model.solr.GatewayBusinessDetailJsSorl;
 
-public class SolrIndexUtil {
+public class SolrUtil {
 
-	private static Logger log = LoggerFactory.getLogger(SolrIndexUtil.class);
+		private static Logger log = LoggerFactory.getLogger(SolrUtil.class);
 		
+		public static SolrClient client=SolrClientHolder.getHttpSolrClient();
+//		public static SolrClient client=SolrClientHolder.getCloudSolrClient();
 		/**
 		 * 增加和更新索引
 		 * @throws Exception
 		 */
 		public static void createIndexByObj(String coreName, Object obj) throws Exception {
-			CloudSolrClient client = SolrClientHolder.getCloudSolrClient();
+//			CloudSolrClient client = SolrClientHolder.getCloudSolrClient();
 			client.addBean(coreName,obj);// 如果不存在就新增，存在就更新
-			client.commit();
+			client.commit(coreName);
 		}
 		/**
 		 * 增加和更新索引
 		 * @throws Exception
 		 */
 		public static void createIndexBySolrInputDocument(String coreName, SolrInputDocument doc) throws Exception {
-			CloudSolrClient client = SolrClientHolder.getCloudSolrClient();
+//			CloudSolrClient client = SolrClientHolder.getCloudSolrClient();
 			client.addBean(coreName,doc);// 如果不存在就新增，存在就更新
-			client.commit();
+			client.commit(coreName);
 		}
 		
 		/**
@@ -47,9 +48,9 @@ public class SolrIndexUtil {
 		 * @throws Exception
 		 */
 		public static void createIndexByObjs(String coreName,Collection<?> objs) throws Exception {
-			CloudSolrClient client = SolrClientHolder.getCloudSolrClient();
+//			CloudSolrClient client = SolrClientHolder.getCloudSolrClient();
 			client.addBeans(coreName,objs);// 如果不存在就新增，存在就更新
-			client.commit();
+			client.commit(coreName);
 		}
 		
 		/**
@@ -58,10 +59,11 @@ public class SolrIndexUtil {
 		 * @throws Exception
 		 */
 		public static void deleteSolrIndex(String coreName,String id) throws Exception {
-			CloudSolrClient client = SolrClientHolder.getCloudSolrClient();
+//			CloudSolrClient client = SolrClientHolder.getCloudSolrClient();
 			@SuppressWarnings("unused")
 			UpdateResponse result = client.deleteById(coreName,id);
-			client.commit();
+//			client.commit("");
+			client.commit(coreName);
 		}
 		
 		/**
@@ -70,7 +72,7 @@ public class SolrIndexUtil {
 		 * @throws Exception
 		 */
 		public static void deleteSolrIndex(String coreName,List<String> ids) throws Exception {
-			CloudSolrClient client = SolrClientHolder.getCloudSolrClient();
+//			CloudSolrClient client = SolrClientHolder.getCloudSolrClient();
 			@SuppressWarnings("unused")
 			UpdateResponse result = client.deleteById(coreName,ids);
 			client.commit();
@@ -89,7 +91,7 @@ public class SolrIndexUtil {
 		public static <T>SolrResult<T> querySolr(String coreName,String[] fq, SortedMap<String, ORDER> orders, Integer start, Integer rows, Class<T> cls){
 			
 			SolrResult<T> sr = new SolrResult<T>();
-			CloudSolrClient client = SolrClientHolder.getCloudSolrClient();
+//			SolrClient client = SolrClientHolder.getHttpSolrClient();
 			SolrQuery query = new SolrQuery();
 			query.set("q", "*:*");// 参数q  查询所有   
 			if(fq != null){
@@ -108,9 +110,11 @@ public class SolrIndexUtil {
 			if(rows != null){
 				query.set(CommonParams.ROWS, rows);
 			}
+			
 			try {
 				log.info("列表查询，查询参数："+ query.toQueryString());
-				QueryResponse queryResponse = client.query(coreName,query);
+				QueryResponse queryResponse = client.query(coreName,query,METHOD.POST);
+//				System.out.println(JSON.toJSONString(queryResponse));
 				sr.setTotalNum(queryResponse.getResults().getNumFound());
 				sr.setDatas(queryResponse.getBeans(cls));
 				return sr;
@@ -119,34 +123,4 @@ public class SolrIndexUtil {
 			}
 			return null;
 		}
-		
-		public static void main(String[] args) {
-			
-			
-			try {
-				List<String> fqList = new ArrayList<String>();
-				// fqList.add("gatewayPassword:6024448246");
-				// fqList.add("adslAccount:13500000001");
-				// fqList.add("status:\"-2\" or status:\"-1\" or status:\"0\" or status:\"1\"");
-				 fqList.add("orderTime:[0 TO 20170824164932]");
-				 SortedMap<String, ORDER> orders = new TreeMap<String, ORDER>();
-		    	orders.put("orderTime", ORDER.desc);
-		    	long l1 = System.currentTimeMillis();
-//		    	SolrResult<GatewayBusinessDetailJsSorl> list = querySolr("GatewayBusinessDetailJs", fqList.toArray(new String[]{}), orders, 0, 100, GatewayBusinessDetailJsSorl.class);
-//		    	System.out.println(  System.currentTimeMillis() - l1 +":"+list.getTotalNum());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		   /* SolrInputDocument doc = new SolrInputDocument("id","orderId");
-		    doc.addField("id", "9999");
-		    doc.addField("orderId", "orderid999");
-			try {
-				createIndexBySolrInputDocument("GatewayBusinessDetailJs", doc);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-		}
-
 	}
