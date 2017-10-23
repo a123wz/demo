@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.UUID;
 
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.beans.Field;
@@ -71,6 +72,7 @@ public class SolrUtilTest {
 			e.printStackTrace();
 		}
 	}
+	
 	public static void addTest(){
 		Person person=new Person();
 		for(int i=0;i<50;i++){
@@ -110,6 +112,29 @@ public class SolrUtilTest {
 //		deleteTest();
 //		addTest();
 //		addDocTest();
-		querySolrTest();
+//		querySolrTest();
+		for(int i=0;i<10;i++){
+			Thread thread = new Thread(new Runnable() {
+				Integer i=0;
+				public void run() {
+					synchronized (i) {
+						while (i<100000) {
+							i++;
+							String uuid=UUID.randomUUID().toString();
+							Person person=new Person();
+							person.setId(""+uuid);
+							person.setAddr("重庆");
+							person.setName("b"+uuid.substring(0, 5));
+							try {
+								SolrUtil.createIndexByObj("test",person);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+			});
+			thread.start();
+		}
 	}
 }

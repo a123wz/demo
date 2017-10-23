@@ -1,22 +1,23 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>demo</groupId>
-    <artifactId>demo</artifactId>
-    <version>1.0</version>
-  </parent>
-  <groupId>demo-canal</groupId>
-  <artifactId>demo-canal</artifactId>
-  <version>1.0</version>
-  <name>demo-canal</name>
-  <url>http://maven.apache.org</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  <dependencies>
-  		<dependency>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>demo</groupId>
+		<artifactId>demo</artifactId>
+		<version>1.0</version>
+	</parent>
+	<groupId>demo-canal</groupId>
+	<artifactId>demo-canal</artifactId>
+	<version>1.0</version>
+	<name>demo-canal</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
 			<groupId>org.apache.solr</groupId>
 			<artifactId>solr-solrj</artifactId>
 			<version>6.5.1</version>
@@ -26,11 +27,18 @@
 			<artifactId>canal.client</artifactId>
 			<version>1.0.12</version>
 		</dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
