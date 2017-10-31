@@ -7,6 +7,11 @@ import java.util.List;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
+/**
+ * 
+ * @author liujianquan
+ * 拦截过滤
+ */
 public class CglibProxy implements MethodInterceptor {
 	
 	public List<CanalIntercept> list = new ArrayList<CanalIntercept>();

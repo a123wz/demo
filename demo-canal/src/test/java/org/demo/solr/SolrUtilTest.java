@@ -1,4 +1,4 @@
-package org.demo.canal;
+package org.demo.solr;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,7 @@ import com.demo.solr.SolrResult;
 import com.demo.solr.SolrUtil;
 
 public class SolrUtilTest {
+	//对象属性必须加上@field注解
 	public static class Person{
 		@Field
 		private String id;
