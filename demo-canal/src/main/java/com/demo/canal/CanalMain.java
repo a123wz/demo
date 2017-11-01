@@ -5,13 +5,23 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.demo.annotation.HelloAnnotation;
 import org.demo.annotation.HelloAnnotation.YtsType;
 
 import com.demo.annotation.canal.Table;
+import com.demo.proxy.CanalIntercept;
+
+import ch.qos.logback.core.joran.action.NewRuleAction;
 
 public class CanalMain {
+	public static Map<String, Object> tableBean = new HashMap<String, Object>();
+	public static Map<String, ? extends CanalIntercept>  tableCon = new HashMap<String, CanalIntercept>();
+	
+	
+	
 	public static void parseField(Class<?> clazz) throws InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		Object obj = clazz.getConstructor(new Class[] {}).newInstance(new Object[] {});
@@ -47,7 +57,7 @@ public class CanalMain {
 	}
 
 	public static void println(Constructor constructor){
-		System.out.println("²ÎÊýÊýÁ¿:"+constructor.getParameterCount());
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:"+constructor.getParameterCount());
 		System.out.println("class:"+constructor.getParameterTypes().length);
 		try {
 			if (constructor.getParameterCount()>0) {
@@ -85,7 +95,7 @@ public class CanalMain {
 	}
 
 	/**
-	 * µÃµ½·½·¨µÄ×¢½â
+	 * ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½
 	 * 
 	 * @param clazz
 	 * @throws IllegalArgumentException
@@ -100,7 +110,7 @@ public class CanalMain {
 		Object obj = clazz.getConstructor(new Class[] {}).newInstance(new Object[] {});
 		System.out.println("obj:" + obj);
 		for (Method method : clazz.getDeclaredMethods()) {
-			// ÉèÖÃÊÇ·ñ¿ÉÖ´ÐÐ private
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ö´ï¿½ï¿½ private
 			method.setAccessible(true);
 			HelloAnnotation say = method.getAnnotation(HelloAnnotation.class);
 			String name = "";
@@ -120,7 +130,7 @@ public class CanalMain {
 	}
 
 	/**
-	 * µÃµ½ÀàµÄÔ]½â
+	 * ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½
 	 * 
 	 * @param clazz
 	 * @throws IllegalArgumentException
