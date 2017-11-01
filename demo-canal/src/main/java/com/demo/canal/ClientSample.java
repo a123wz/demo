@@ -18,10 +18,10 @@ public class ClientSample {
 	  
     public static void main(String args[]) {  
         // 创建链接  
-//        CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress(AddressUtils.getHostIp(),  
-//                11111), "example", "", "");
-        CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress("172.19.10.5",  
-                11111), "example", "", ""); 
+        CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress(AddressUtils.getHostIp(),  
+                11111), "example", "", "");
+//        CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress("172.19.10.5",  
+//                11111), "example", "", ""); 
         int batchSize = 1000;  
         int emptyCount = 0;  
         try {  
@@ -94,7 +94,7 @@ public class ClientSample {
   
     private static void printColumn( List<Column> columns) {  
         for (Column column : columns) {
-            System.out.println(column.getName() + " : " + column.getValue() + "    update=" + column.getUpdated()+" iskey:"+column.getIsKey());  
+            System.out.println(column.getName() + " : " + column.getValue().getClass().getName() + "    update=" + column.getUpdated()+" iskey:"+column.getIsKey());  
         }  
     }  
 }  
