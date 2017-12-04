@@ -8,5 +8,6 @@
   <modules>
     <module>demo-solr</module>
     <module>demo-canal</module>
+    <module>demo-kafka</module>
   </modules>
 </project>

@@ -28,8 +28,13 @@ public class PackageUtil {
 	 * @return 类的完整名称
 	 * @throws Exception
 	 */
-	public static List<String> getClassName(String packageName) throws Exception {
-		return getClassName(packageName, true);
+	public static List<String> getClassName(String packageName){
+		try {
+			return getClassName(packageName, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/**
@@ -83,7 +88,7 @@ public class PackageUtil {
 			} else {
 				String childFilePath = childFile.getPath();
 				if (childFilePath.endsWith(".class")) {
-					childFilePath = childFilePath.substring(childFilePath.indexOf("\\classes") + 9,
+					childFilePath = childFilePath.substring(childFilePath.indexOf("classes") + 8,
 							childFilePath.lastIndexOf("."));
 					childFilePath = childFilePath.replace("\\", ".");
 					myClassName.add(childFilePath);

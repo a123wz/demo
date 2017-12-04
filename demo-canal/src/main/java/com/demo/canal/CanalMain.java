@@ -5,13 +5,42 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.demo.annotation.HelloAnnotation;
 import org.demo.annotation.HelloAnnotation.YtsType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.demo.annotation.canal.Table;
+import com.demo.proxy.CanalIntercept;
+import com.demo.util.PackageUtil;
 
 public class CanalMain {
+	private static Logger logger = LoggerFactory.getLogger(CanalMain.class);
+	public static Map<String, Object> tableBean = new HashMap<String, Object>();
+	public static Map<String, ? extends CanalIntercept>  tableCon = new HashMap<String, CanalIntercept>();
+	
+	public static void initTableBean(String packageName) {
+		List<String> classNames = PackageUtil.getClassName(packageName);
+		if (classNames!=null && classNames.size() != 0) {
+			for(String cla:classNames){
+				Class class1 = classForClassStr(cla);
+			}
+		}
+	}
+	
+	public static Class<?> classForClassStr(String className){
+		try {
+			return Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			logger.info(className+" ÂàùÂßãÂåñÁ±ªÊñá‰ª∂Â§±Ë¥•------------");
+			return null;
+		}
+	}
+	
 	public static void parseField(Class<?> clazz) throws InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		Object obj = clazz.getConstructor(new Class[] {}).newInstance(new Object[] {});
@@ -47,7 +76,7 @@ public class CanalMain {
 	}
 
 	public static void println(Constructor constructor){
-		System.out.println("≤Œ ˝ ˝¡ø:"+constructor.getParameterCount());
+		System.out.println("ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ:"+constructor.getParameterCount());
 		System.out.println("class:"+constructor.getParameterTypes().length);
 		try {
 			if (constructor.getParameterCount()>0) {
@@ -85,7 +114,7 @@ public class CanalMain {
 	}
 
 	/**
-	 * µ√µΩ∑Ω∑®µƒ◊¢Ω‚
+	 * 
 	 * 
 	 * @param clazz
 	 * @throws IllegalArgumentException
@@ -100,7 +129,7 @@ public class CanalMain {
 		Object obj = clazz.getConstructor(new Class[] {}).newInstance(new Object[] {});
 		System.out.println("obj:" + obj);
 		for (Method method : clazz.getDeclaredMethods()) {
-			// …Ë÷√ «∑Òø…÷¥–– private
+			// ÔøΩÔøΩÔøΩÔøΩÔøΩ«∑ÔøΩÔøΩ÷¥ÔøΩÔøΩ private
 			method.setAccessible(true);
 			HelloAnnotation say = method.getAnnotation(HelloAnnotation.class);
 			String name = "";
@@ -120,19 +149,19 @@ public class CanalMain {
 	}
 
 	/**
-	 * µ√µΩ¿‡µƒ‘]Ω‚
+	 * ÂæóÂà∞Á±ªÁöÑË®ªËß£
 	 * 
 	 * @param clazz
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void parseType(Class clazz)
-			throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		Table table = (Table) clazz.getAnnotation(Table.class);
-		if (table != null) {
-//			String name=table.tableName();
+	@SuppressWarnings("unchecked")
+	public Annotation parseType(Class clazz,Class<? extends Annotation> annotation){
+		Annotation zj = clazz.getAnnotation(annotation);
+		if (zj!=null) {
+			return zj;
 		}
+		return null;
 	}
 }
