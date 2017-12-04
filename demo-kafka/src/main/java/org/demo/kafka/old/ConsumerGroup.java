@@ -1,4 +1,4 @@
-package org.demo.kafka1;
+package org.demo.kafka.old;
 
 import java.util.HashMap;
 import java.util.List;
