@@ -28,8 +28,13 @@ public class PackageUtil {
 	 * @return 类的完整名称
 	 * @throws Exception
 	 */
-	public static List<String> getClassName(String packageName) throws Exception {
-		return getClassName(packageName, true);
+	public static List<String> getClassName(String packageName){
+		try {
+			return getClassName(packageName, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/**
