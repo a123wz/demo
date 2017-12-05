@@ -24,6 +24,18 @@ public class RedisClientTemplate {
     @Autowired
     private RedisDataSource redisDataSource;
 
+    public RedisClientTemplate(){
+    	
+    }
+    
+    public RedisClientTemplate(RedisDataSource redisDataSource){
+    	this.redisDataSource = redisDataSource;
+    }
+    
+    public RedisDataSource getRedisDataSource(){
+    	return this.redisDataSource;
+    }
+    
     public void disconnect() {
         ShardedJedis shardedJedis = redisDataSource.getRedisClient();
         shardedJedis.disconnect();
