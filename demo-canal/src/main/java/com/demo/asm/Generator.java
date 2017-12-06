@@ -18,14 +18,14 @@ import jdk.internal.org.objectweb.asm.util.TraceClassVisitor;
     
 public class Generator{ 
     public static void main() throws Exception { 
-        ClassReader cr = new ClassReader("Account"); 
-        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        ClassAdapter classAdapter = new AddSecurityCheckClassAdapter(cw); 
-        cr.accept(classAdapter, ClassReader.SKIP_DEBUG); 
-        byte[] data = cw.toByteArray(); 
-        File file = new File("Account.class"); 
-        FileOutputStream fout = new FileOutputStream(file); 
-        fout.write(data); 
-        fout.close(); 
+//        ClassReader cr = new ClassReader("Account"); 
+//        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+//        ClassAdapter classAdapter = new AddSecurityCheckClassAdapter(cw); 
+//        cr.accept(classAdapter, ClassReader.SKIP_DEBUG); 
+//        byte[] data = cw.toByteArray(); 
+//        File file = new File("Account.class"); 
+//        FileOutputStream fout = new FileOutputStream(file); 
+//        fout.write(data); 
+//        fout.close(); 
     } 
 }
