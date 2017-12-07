@@ -29,10 +29,17 @@
 			<artifactId>kafka-clients</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<!-- <dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka_2.10</artifactId>
+			<version>0.10.2.0</version>
+		</dependency> -->
+
+		<!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
 		<dependency>
-        	<groupId>org.apache.kafka</groupId>
-		    <artifactId>kafka_2.10</artifactId>
-		    <version>0.10.2.0</version>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>5.0.0.Alpha1</version>
 		</dependency>
 	</dependencies>
 </project>

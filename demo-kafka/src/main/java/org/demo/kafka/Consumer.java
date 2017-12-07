@@ -38,8 +38,8 @@ public class Consumer {
 		topics.add("test1");
 		Consumer consumer = new Consumer(brokers, topics);
 		System.out.println();
-		String zooKeeper,groupId,topic;
+//		String zooKeeper,groupId,topic;
 //		Strin
-		ConsumerGroup example = new ConsumerGroup(zooKeeper, groupId, topic);
+//		ConsumerGroup example = new ConsumerGroup(zooKeeper, groupId, topic);
 	}
 }
