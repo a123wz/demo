@@ -19,11 +19,11 @@ public class Test {
 		source = new RedisDataSourceImpl();
 		redisClientTemplate = new RedisClientTemplate(source);
 		
-
+//		System.out.println(redisClientTemplate.del("bbbbbbbbbbbbb"));
 //		 redisClientTemplate.set("ss", "yes", "NX","EX", 100);
 //		testMap();
-//		testList();
-		testDb();
+		testList();
+//		testDb();
 	}
 	public static void testDb(){
 		
@@ -36,8 +36,20 @@ public class Test {
 		// NX 只有在key不存在时才设置,如果key存在则返回为null XX 只有在这个key存在的时候才是设置,如果key存在返回为null
 		// EX 秒 PX毫秒
 //		System.out.println(shardedJedis.set("ss", "yes", "NX","EX", 100));
-//		System.out.println(shardedJedis.set("ss", "yes", "NX","EX", 100));
-		System.out.println(shardedJedis.set("ss", "yessss", "XX","PX", 100000));
+		
+		
+		System.out.println(shardedJedis.set("SS:ss", "yes", "NX","EX", 1000));
+		while(true){
+			shardedJedis.expire("SS:ss", 1000);
+			System.out.println("延迟1000");
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+//		System.out.println(shardedJedis.set("ss", "yessss", "XX","PX", 100000));
 //		System.out.println(shardedJedis.del("ss"));
 	}
 	public static void testMap() {
@@ -76,15 +88,23 @@ public class Test {
 		redisClientTemplate.lpush("java framework", "spring");
 		redisClientTemplate.lpush("java framework", "struts");
 		redisClientTemplate.lpush("java framework", "hibernate");
+		System.out.println("java framework len:"+redisClientTemplate.llen("java framework"));
+//		System.out.println("java framework remove after len:"+redisClientTemplate.ltrim("java framework", 0, 1));
 		// 再取出所有数据jedis.lrange是按范围取出，
 		// 第一个是key，第二个是起始位置，第三个是结束位置，jedis.llen获取长度 -1表示取得所有
-		System.out.println(redisClientTemplate.lrange("java framework", 0, -1));
-
+		System.out.println(redisClientTemplate.lrange("java framework", 0, 2));
+		System.out.println("java framework remove after len:"+redisClientTemplate.ltrim("java framework", 0, 2));
+		
+		System.out.println("java framework len:"+redisClientTemplate.llen("java framework"));
+		
+		
 		redisClientTemplate.del("java framework");
 		redisClientTemplate.rpush("java framework", "spring");
 		redisClientTemplate.rpush("java framework", "struts");
 		redisClientTemplate.rpush("java framework", "hibernate");
 		System.out.println(redisClientTemplate.lrange("java framework", 0, 1));
+		System.out.println(redisClientTemplate.lrange("java framework", 0, 1));
+		System.out.println("java framework len:"+redisClientTemplate.llen("java framework"));
 		redisClientTemplate.del("java framework");
 	}
 }

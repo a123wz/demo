@@ -1,5 +1,11 @@
 package org.demo.kafka;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -25,14 +31,39 @@ public class Producer {
         this.producer = new KafkaProducer<String,String>(props);
         this.topic = topics.get(0);
 	}
+	public static String getFile(){
+    	FileInputStream in;
+    	String re ="";
+		try {
+			in = new FileInputStream("F:\\info.txt");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in, "utf-8"));
+			String str;
+			while((str = reader.readLine())!=null){
+				re+=str;
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return re;
+    }
 	public static void main(String[] args) {
-		String brokers = "172.19.10.10:9092";
-		brokers = "127.0.0.1:9092";
+		String content = getFile();
+    	System.out.println(content.getBytes().length);
+    	String value = "{\"method\":\"test\",\"logTime\":"+System.currentTimeMillis()/1000+",\"content\":\""+content+"\"}";
+    	System.out.println(value.getBytes().length);
+    	
+		String brokers = "172.19.10.9:9092";
+//		brokers = "127.0.0.1:9092";
 		List<String> topics = new ArrayList<String>();
-		topics.add("test1");
+		topics.add("acs-log-to-rms");
 		Producer producer = new Producer(brokers, topics);
 		for(int i=0;i<10000;i++){
-			producer.sendMessage("k"+i, "s"+i);
+			producer.sendMessage("k"+i, value);
+			System.out.println(i);
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {

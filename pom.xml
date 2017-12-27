@@ -10,5 +10,6 @@
     <module>demo-canal</module>
     <module>demo-kafka</module>
     <module>demo-web</module>
+    <module>demo-test</module>
   </modules>
 </project>

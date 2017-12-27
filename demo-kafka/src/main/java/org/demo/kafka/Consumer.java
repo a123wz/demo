@@ -34,8 +34,9 @@ public class Consumer {
 	public static void main(String[] args) {
 		String brokers = "172.19.10.10:9092";
 		brokers = "127.0.0.1:9092";
+		brokers = "172.19.10.9:9092";
 		List<String> topics = new ArrayList<String>();
-		topics.add("test1");
+		topics.add("acs-log-to-rms");
 		Consumer consumer = new Consumer(brokers, topics);
 		System.out.println();
 //		String zooKeeper,groupId,topic;
