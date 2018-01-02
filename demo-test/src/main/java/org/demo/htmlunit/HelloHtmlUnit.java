@@ -1,12 +1,16 @@
 package org.demo.htmlunit;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.CookieManager;
+import com.gargoylesoftware.htmlunit.ScriptException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 
 public class HelloHtmlUnit{
@@ -25,7 +29,35 @@ public class HelloHtmlUnit{
         WebClient webClient = new WebClient(BrowserVersion.CHROME);
         //htmlunit 对css和javascript的支持不好，所以请关闭之
         webClient.getOptions().setJavaScriptEnabled(true);
+//        webClient.getOptions().getSSLClientCertificateStore().g
         webClient.getOptions().setCssEnabled(true);
+        
+        webClient.setJavaScriptErrorListener(new JavaScriptErrorListener(){
+
+			@Override
+			public void loadScriptError(HtmlPage arg0, URL arg1, Exception arg2) {
+				
+			}
+
+			@Override
+			public void malformedScriptURL(HtmlPage arg0, String arg1, MalformedURLException arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void scriptException(HtmlPage arg0, ScriptException arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void timeoutError(HtmlPage arg0, long arg1, long arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+        });
         
         webClient.addRequestHeader("Referer", "https://kyfw.12306.cn/otn/index/init");
         
@@ -60,7 +92,7 @@ public class HelloHtmlUnit{
             	System.out.println(pageTwo.asXml());
             }
         	
-        	Thread.sleep(20000);;
+        	Thread.sleep(100000);;
 		}
         //关闭webclient
 //        webClient.close();
