@@ -1,28 +1,166 @@
 package org.demo.redis;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import com.demo.redis.RedisClientTemplate;
 import com.demo.redis.RedisDataSource;
 import com.demo.redis.RedisDataSourceImpl;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.ShardedJedis;
 
 public class Test {
 	static RedisClientTemplate redisClientTemplate;
 	static RedisDataSource source;
+	public static void Threads(){
+		final String  key= "sj_bb";
+		final int count = 20000;
+		final int number =10;
+		
+		System.out.println(redisClientTemplate.set(key, "0"));
+		Thread de = new Thread(new Runnable() {
+			
+			public void run() {
+				for(int i=0;i<count;i++){
+					Thread t = new Thread(new Runnable() {
+						
+						public void run() {
+							for(int i=0;i<number;i++){
+								redisClientTemplate.decr(key);
+							}
+							System.out.println(redisClientTemplate.get(key));
+						}
+					});
+					t.start();
+				}
+			}
+		});
+		
+		de.start();
+		
+		Thread add = new Thread(new Runnable() {
+			public void run() {
+				for(int i=0;i<count;i++){
+					Thread t = new Thread(new Runnable() {
+						
+						public void run() {
+							for(int i=0;i<number;i++){
+								redisClientTemplate.incr(key);
+							}
+							System.out.println(redisClientTemplate.get(key));
+						}
+					});
+					t.start();
+				}
+			}
+			
+		});
+		add.start();
+	}
+	public static class RedisMsgPubSubListener extends JedisPubSub{
+		@Override  
+	    public void unsubscribe() {  
+	        super.unsubscribe();  
+	    }  
+	  
+	    @Override  
+	    public void unsubscribe(String... channels) {  
+	        super.unsubscribe(channels);  
+	    }  
+	  
+	    @Override  
+	    public void subscribe(String... channels) {  
+	        super.subscribe(channels);  
+	    }  
+	  
+	    @Override  
+	    public void psubscribe(String... patterns) {  
+	        super.psubscribe(patterns);  
+	    }  
+	  
+	    @Override  
+	    public void punsubscribe() {  
+	        super.punsubscribe();  
+	    }  
+	  
+	    @Override  
+	    public void punsubscribe(String... patterns) {  
+	        super.punsubscribe(patterns);  
+	    }  
+	  
+	    @Override  
+	    public void onMessage(String channel, String message) {  
+	        System.out.println("message channel: " + channel + " receives message :" + message);  
+//	        this.unsubscribe();  
+	    }  
+	  
+	    @Override  
+	    public void onPMessage(String pattern, String channel, String message) {  
+	    	 System.out.println("channel:" + channel + " receives message :" + message);  
+	    }  
+	  
+	    @Override  
+	    public void onSubscribe(String channel, int subscribedChannels) {  
+	        System.out.println("channel:" + channel + " is been subscribed:" + subscribedChannels);  
+	    }  
+	  
+	    @Override  
+	    public void onPUnsubscribe(String pattern, int subscribedChannels) {  
+	  
+	    }  
+	  
+	    @Override  
+	    public void onPSubscribe(String pattern, int subscribedChannels) {  
+	  
+	    }  
+	  
+	    @Override  
+	    public void onUnsubscribe(String channel, int subscribedChannels) {  
+	        System.out.println("channel:" + channel + "is been unsubscribed:" + subscribedChannels);  
+	    }  
+	}
+	public static void subscribe(){
+		Collection<Jedis> list = source.getRedisClient().getAllShards();
+		System.out.println("长度:"+list.size());
+		for(final Jedis jedis:list){
+//			Thread thread = new Thread(new Runnable() {
+//				
+//				public void run() {
+					jedis.subscribe(new RedisMsgPubSubListener(), "test1");
+//				}
+//			});
+//			thread.start();
+			System.out.println("1");
+		}
+	}
 	public static void main(String[] args) {
 		source = new RedisDataSourceImpl();
 		redisClientTemplate = new RedisClientTemplate(source);
-		
+//		subscribe();
+//		source.getRedisClient().getShard("1").subscribe(new RedisMsgPubSubListener(), "test1","test2");;
+//		System.out.println(111);
+		JSONObject object = new JSONObject();
+		object.put("version", "12");
+		object.put("url", "33");
+		object.put("md5", "ss");
+		source.getRedisClient().getShard("1").publish("plugVersion", object.toJSONString());
+		System.out.println(source.getRedisClient().getShard("1").publish("test1", "fsd"));
+//		source.getRedisClient().publish("account-export", "");
+//		Threads();
+//		System.out.println(redisClientTemplate.decrBy("sj_bb", 10));
+//		System.out.println(redisClientTemplate.decr("sj_bb"));
+//		System.out.println(redisClientTemplate.get("sj_bb"));
+//		System.out.println(redisClientTemplate.del("sj_bb"));
 //		System.out.println(redisClientTemplate.del("bbbbbbbbbbbbb"));
 //		 redisClientTemplate.set("ss", "yes", "NX","EX", 100);
 //		testMap();
-		testList();
+//		testList();
 //		testDb();
 	}
 	public static void testDb(){

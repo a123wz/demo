@@ -1,8 +1,11 @@
 package org.demo.proxy;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,6 +42,12 @@ public class ProxyTask implements Runnable {
               
             InputStream isIn = socketIn.getInputStream();  
             OutputStream osIn = socketIn.getOutputStream();  
+            
+            InputStream isIn1 = socketIn.getInputStream(); 
+            
+            
+//            readForwardStr(isIn1);
+            
             //从客户端流数据中读取头部，获得请求主机和端口  
             HttpHeader header = HttpHeader.readHeader(isIn);  
               
@@ -66,15 +75,19 @@ public class ProxyTask implements Runnable {
             ot.start();  
             if (header.getMethod().equals(HttpHeader.METHOD_CONNECT)) {  
                 // 将已联通信号返回给请求页面  
+//            	System.out.println("已联通");
                 osIn.write(AUTHORED.getBytes());  
                 osIn.flush();  
             }else{  
+//            	System.out.println("http");
                 //http请求需要将请求头部也转发出去  
                 byte[] headerData=header.toString().getBytes();  
                 totalUpload+=headerData.length;  
                 osOut.write(headerData);  
                 osOut.flush();  
             }  
+            
+//            readForwardStr(isIn1);
             
 //            System.out.println("head:"+header);
             //读取客户端请求过来的数据转发给服务器  
@@ -117,19 +130,36 @@ public class ProxyTask implements Runnable {
 //        System.out.println(msg);  
     }  
   
+    private void readForwardStr(InputStream isIn){
+    	try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(isIn,"gbk"));
+			String str ="";
+			while ((str=reader.readLine())!=null) {
+				System.out.println("str:"+str);
+			}
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+    	
+    }
+    
     /** 
      * 读取客户端发送过来的数据，发送给服务器端 
      *  
      * @param isIn 
      * @param osOut 
      */  
-    private void readForwardDate(InputStream isIn, OutputStream osOut) {  
+    private void readForwardDate(InputStream isIn, OutputStream osOut) { 
         byte[] buffer = new byte[4096];  
         try {  
             int len;  
             while ((len = isIn.read(buffer)) != -1) {  
                 if (len > 0) {
-//                	System.out.println("buffer:"+new String(buffer,"utf-8"));
+                	System.out.println("buffer:"+new String(buffer,"utf-8"));
                     osOut.write(buffer, 0, len);  
                     osOut.flush();  
                 }  
