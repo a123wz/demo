@@ -139,26 +139,30 @@ public class Test {
 			System.out.println("1");
 		}
 	}
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		source = new RedisDataSourceImpl();
 		redisClientTemplate = new RedisClientTemplate(source);
 //		subscribe();
 //		source.getRedisClient().getShard("1").subscribe(new RedisMsgPubSubListener(), "test1","test2");;
 //		System.out.println(111);
 		JSONObject object = new JSONObject();
-		object.put("version", "12");
+		object.put("version", "1.0.0");
 		object.put("url", "33");
 		object.put("md5", "ss");
 		source.getRedisClient().getShard("1").publish("plugVersion", object.toJSONString());
-		System.out.println(source.getRedisClient().getShard("1").publish("test1", "fsd"));
 //		source.getRedisClient().publish("account-export", "");
 //		Threads();
 //		System.out.println(redisClientTemplate.decrBy("sj_bb", 10));
 //		System.out.println(redisClientTemplate.decr("sj_bb"));
-//		System.out.println(redisClientTemplate.get("sj_bb"));
+//		System.out.println(redisClientTemplate.decr("sj_bb"));
 //		System.out.println(redisClientTemplate.del("sj_bb"));
 //		System.out.println(redisClientTemplate.del("bbbbbbbbbbbbb"));
-//		 redisClientTemplate.set("ss", "yes", "NX","EX", 100);
+//		System.out.println(redisClientTemplate.del("ss"));
+//		System.out.println(redisClientTemplate.exists("ss"));
+//		 System.out.println(redisClientTemplate.set("ss", "0", "NX","EX", 1));
+//		 Thread.sleep(2000);
+//		 System.out.println(redisClientTemplate.incr("ss"));
+//		 System.out.println(redisClientTemplate.ttl("ss"));
 //		testMap();
 //		testList();
 //		testDb();
