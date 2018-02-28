@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>demo</groupId>
+		<artifactId>demo</artifactId>
+		<version>1.0</version>
+	</parent>
+	<groupId>demo-data</groupId>
+	<artifactId>demo-data</artifactId>
+	<!-- <version>1.0</version> -->
+	<name>demo-data</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<hadoop.version>2.9.0</hadoop.version>
+		<java.version>1.8</java.version>
+	</properties>
+	<dependencies>
+		<!-- <dependency>
+			<groupId>jdk.tools</groupId>
+			<artifactId>jdk.tools</artifactId>
+			<version>1.8</version>
+			<scope>system</scope>
+			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+		</dependency> -->
+		<!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-hdfs -->
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-hdfs</artifactId>
+			<version>${hadoop.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-client</artifactId>
+			<version>${hadoop.version}</version>
+			<!-- <exclusions>
+				<exclusion>
+					<groupId>jdk.tools</groupId>
+					<artifactId>jdk.tools</artifactId>
+				</exclusion>
+			</exclusions> -->
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-common</artifactId>
+			<version>${hadoop.version}</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-core</artifactId> 
+			<version>1.2.1</version> </dependency> <dependency> <groupId>org.apache.hadoop</groupId> 
+			<artifactId>hadoop-common</artifactId> <version>2.7.2</version> </dependency> -->
+		<!-- <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId> 
+			<version>3.8.1</version> <scope>test</scope> </dependency> -->
+	</dependencies>
+</project>

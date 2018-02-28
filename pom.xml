@@ -11,5 +11,6 @@
     <module>demo-kafka</module>
     <module>demo-web</module>
     <module>demo-test</module>
+    <module>demo-data</module>
   </modules>
 </project>
