@@ -17,6 +17,12 @@ public class Consumer {
 		Properties props = new Properties();
         props.put("bootstrap.servers", brokers);
         props.put("group.id", "rs1");
+        //心跳保持时间 毫秒
+//        props.put("session.timeout.ms", sessionTimeOut);
+//        消息发送的最长等待时间
+//        props.put("request.timeout.ms", sessionTimeOut+10000);
+        //最大获取记录条数kafka2.0支持
+//        props.put("max.poll.records", maxPollRecords);
         props.put("key.deserializer", StringDeserializer.class.getName());
         props.put("value.deserializer", StringDeserializer.class.getName());
         this.consumer = new KafkaConsumer<String, String>(props);
