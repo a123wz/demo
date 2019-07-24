@@ -85,7 +85,24 @@
     <artifactId>htmlunit-core-js</artifactId>
     <version>2.28</version>
 </dependency>
-		
+
+		<dependency>
+			<groupId>com.github.houbb</groupId>
+			<artifactId>iexcel</artifactId>
+			<version>0.0.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.jsqlparser</groupId>
+			<artifactId>jsqlparser</artifactId>
+			<version>1.4</version>
+		</dependency>
 		
 	</dependencies>
 
