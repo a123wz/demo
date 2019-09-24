@@ -23,6 +23,7 @@ public class WordCount {
 
 		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 			StringTokenizer itr = new StringTokenizer(value.toString());
+			System.out.println(value);
 			while (itr.hasMoreTokens()) {
 				word.set(itr.nextToken());
 				context.write(word, one);
@@ -46,7 +47,7 @@ public class WordCount {
 
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
-		String inputPath = "hdfs://127.0.0.1:9000/report.log.txt";
+		String inputPath = "hdfs://127.0.0.1:9000/oms.sql";
 		String outputPath = "hdfs://127.0.0.1:9000/output";
 		Job job = Job.getInstance(conf, "word count");
 		job.setJarByClass(WordCount.class);

@@ -1,0 +1,45 @@
+InputFormat是MapReduce中一个很常用的概念，它在程序的运行中到底起到了什么作用呢？
+InputFormat其实是一个接口，包含了两个方法：
+public interface InputFormat<K, V> {
+  InputSplit[] getSplits(JobConf job, int numSplits) throws IOException;
+
+  RecordReader<K, V> createRecordReader(InputSplit split,
+
+  TaskAttemptContext context)  throws IOException;
+
+}
+这两个方法有分别完成着以下工作：
+      方法 getSplits 将输入数据切分成splits，splits的个数即为map tasks的个数，splits的大小默认为块大小，即64M
+     方法 getRecordReader 将每个 split  解析成records, 再依次将record解析成<K,V>对
+也就是说 InputFormat完成以下工作：
+ InputFile -->  splits  -->  <K,V>
+
+
+其中Text InputFormat便是最常用的，它的 <K,V>就代表 <行偏移,该行内容>
+
+然而系统所提供的这几种固定的将  InputFile转换为 <K,V>的方式有时候并不能满足我们的需求：
+此时需要我们自定义   InputFormat ，从而使Hadoop框架按照我们预设的方式来将
+InputFile解析为<K,V>
+在领会自定义   InputFormat 之前，需要弄懂一下几个抽象类、接口及其之间的关系：
+
+InputFormat(interface), FileInputFormat(abstract class), TextInputFormat(class),
+RecordReader (interface), Line RecordReader(class)的关系
+      FileInputFormat implements  InputFormat
+      TextInputFormat extends  FileInputFormat
+      TextInputFormat.get RecordReader calls  Line RecordReader
+      Line RecordReader  implements  RecordReader
+
+对于InputFormat接口，上面已经有详细的描述
+再看看 FileInputFormat，它实现了 InputFormat接口中的 getSplits方法，而将 getRecordReader与isSplitable留给具体类(如 TextInputFormat )实现， isSplitable方法通常不用修改，所以只需要在自定义的 InputFormat中实现
+getRecordReader方法即可，而该方法的核心是调用 Line RecordReader(即由LineRecorderReader类来实现 " 将每个s plit解析成records, 再依次将record解析成<K,V>对" )，该方法实现了接口RecordReader
+
+  public interface RecordReader<K, V> {
+  boolean   next(K key, V value) throws IOException;
+  K   createKey();
+  V   createValue();
+  long   getPos() throws IOException;
+  public void   close() throws IOException;
+  float   getProgress() throws IOException;
+}
+
+     因此自定义InputFormat的核心是自定义一个实现接口RecordReader类似于LineRecordReader的类，该类的核心也正是重写接口RecordReader中的几大方法，

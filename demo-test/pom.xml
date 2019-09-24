@@ -15,6 +15,7 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<reactor-version>3.2.6.RELEASE</reactor-version>
 	</properties>
 	<dependencies>
 	    <!-- logback jar依赖 -->
@@ -38,8 +39,8 @@
 			<type>jar</type>
 		</dependency>
 		<!-- end  -->
-		
-		
+
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -52,20 +53,20 @@
 			<artifactId>kafka-clients</artifactId>
 			<version>0.9.0.1</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
 		<!-- <dependency>
 		    <groupId>org.apache.httpcomponents</groupId>
 		    <artifactId>httpclient</artifactId>
 		    <version>4.5</version>
 		</dependency> -->
-		
+
 		<dependency>
     <groupId>org.apache.httpcomponents</groupId>
     <artifactId>httpclient</artifactId>
     <version>4.5.2</version>
 </dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
 <dependency>
     <groupId>com.alibaba</groupId>
@@ -78,7 +79,7 @@
     <artifactId>htmlunit</artifactId>
     <version>2.28</version>
 </dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/net.sourceforge.htmlunit/htmlunit-core-js -->
 <dependency>
     <groupId>net.sourceforge.htmlunit</groupId>
@@ -98,12 +99,27 @@
 			<version>1.18.4</version>
 		</dependency>
 
+		<!-- sql 封装jar -->
 		<dependency>
 			<groupId>com.github.jsqlparser</groupId>
 			<artifactId>jsqlparser</artifactId>
 			<version>1.4</version>
 		</dependency>
-		
+
+		<!-- https://mvnrepository.com/artifact/com.alibaba/easyexcel -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>easyexcel</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core</artifactId>
+			<version>${reactor-version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
