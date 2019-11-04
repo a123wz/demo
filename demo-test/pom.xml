@@ -120,6 +120,20 @@
 			<version>${reactor-version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.htmlparser/htmlparser  html解析-->
+		<dependency>
+			<groupId>org.htmlparser</groupId>
+			<artifactId>htmlparser</artifactId>
+			<version>2.1</version>
+		</dependency>
+
+		<!-- 汉字转拼音 -->
+		<dependency>
+			<groupId>com.belerweb</groupId>
+			<artifactId>pinyin4j</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
