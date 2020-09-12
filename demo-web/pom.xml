@@ -149,7 +149,7 @@
 				<configuration>
 					<addVersionToProjectName>false</addVersionToProjectName>
 					<useProjectReferences>false</useProjectReferences>
-					<encoding>${project.build.sourceEncoding}</encoding>
+					<!--<encoding>${project.build.sourceEncoding}</encoding>-->
 					<wtpmanifest>false</wtpmanifest>
 					<wtpapplicationxml>true</wtpapplicationxml>
 					<wtpversion>1.5</wtpversion>
