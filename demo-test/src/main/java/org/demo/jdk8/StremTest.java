@@ -17,7 +17,11 @@ public class StremTest {
     public static void main(String[] args) {
 //        sequential();
 //        parallel();
-        test();
+//        test();
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+        System.out.println(String.join(",", list));
     }
 
     public static void test(){
