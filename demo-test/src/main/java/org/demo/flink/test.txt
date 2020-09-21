@@ -1,0 +1,9 @@
+netstat -aon|findstr "8081"
+tasklist|findstr "9088"
+taskkill /T /F /PID 9088
+
+flink 1.9.0
+   启动 start-cluster.bat
+
+idea 测试方式
+   在项目中加载flink 安装目录lib下flink-dist_2.12-{version}.jar
