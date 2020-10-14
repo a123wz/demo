@@ -173,6 +173,12 @@
 			<version>${flink.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.1.52.Final</version>
+		</dependency>
+
 		<!--flink 状态依赖<dependency>
 			<groupId>org.apache.flink</groupId>
 			<artifactId>statefun-sdk</artifactId>
