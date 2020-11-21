@@ -1,0 +1,58 @@
+
+# 内存OOM时，自动生成dump文件
+-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/data/logs/
+
+
+-- 当前运行的所有事务
+select *  from information_schema.innodb_trx;
+-- 当前出现的锁
+SELECT * FROM information_schema.INNODB_LOCKS;
+-- 锁等待的对应关系
+select *  from information_schema.INNODB_LOCK_WAITS;
+
+排序数据库连接的数目
+mysql -h127.0.0.0.1 -uabc_test -pXXXXX -P3306 -A -e 'show processlist'| awk '{print $4}'|sort|uniq -c|sort -rn|head -10
+
+
+# 查询慢SQL查询是否开启
+show variables like 'slow_query_log';
+# 查询慢SQL的时间
+show variables like 'long_query_time';
+# 查看慢SQL存放路径，一般：/home/mysql/data3016/mysql/slow_query.log
+show variables like 'slow_query_log_file';
+
+# 查看数据库的事务隔离级别,RDS:READ-COMMITTED   Mysql:Repeatable read
+show variables like 'tx_isolation';
+ # innodb数据页大小  16384
+show variables like 'innodb_page_size';
+
+show status  like 'innodb_row_%';
+
+# 查看慢SQL
+SHOW SLOW limit 10;
+show full slow limit 10;
+
+# 查看autocommit配置
+select @@autocommit;
+ # 同上
+show variables like 'autocommit';
+#设置SQL自动提交模式  1:默认,自动提交   0:需要手动触发commit,否则不会生效
+set autocommit=1;　　
+# 查看默认的搜索引擎
+show variables like '%storage_engine%';
+
+# 设置事务隔离级别
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+
+
+redis
+
+# 配置查询时间超过1毫秒的， 第一个参数单位是微秒
+config set slowlog-log-lower-than 1000
+
+# 保存200条慢查记录
+config set slowlog-max-len 200
+
+查看Redis的慢命令
+slowlog get
+
