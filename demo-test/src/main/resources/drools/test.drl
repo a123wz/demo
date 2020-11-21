@@ -1,0 +1,61 @@
+package com.cnblogs.yjmyzz.drools;
+
+import org.demo.drools.SourceData;
+import java.util.concurrent.atomic.AtomicInteger;
+
+global String temp;
+global AtomicInteger count;
+
+//函数示例
+function void print(String messgae){
+    System.out.println(messgae);
+}
+
+//规则1
+rule "fb_rule"
+    when
+        $message: SourceData(type.equals("fb"))
+    then
+//        print($message.getTarget() +  ", nice to meet you. But I have to go.");
+        //将MessageType设置成GOODBYE
+        $message.setCount($message.getCount()*2);
+        //更新fact,以便触发规则新的规则
+        update($message);
+    end
+rule "max_rule"
+    when
+        $message: SourceData(count>5)
+    then
+//        print($message.getTarget() +  ", nice to meet you. But I have to go.");
+        //将MessageType设置成GOODBYE
+        $message.setCount(5);
+        //更新fact,以便触发规则新的规则
+        update($message);
+    end
+
+/*rule "give-me-money"
+    salience -1 //规则触发的优先级，值越大，越先触发
+    when
+        $message: Message(rules.equals("beggar"))
+    then
+        print("5毛拿好");
+    end
+
+rule "give-me-rice"
+    salience 1
+    when
+        $message: Message(target.equals("beggar"))
+    then
+        print("给你个包子吧");
+    end
+
+//本规则的效果：如果target="loop"，会循环触发，真到10次后停下
+rule "loop"
+//    no-loop  //加上这行后，将禁止循环触发
+    when
+        $message: Message(target.equals("loop") && count.get()<10)
+    then
+        print("\n我会每隔1秒触发，10次后停止！" + count.addAndGet(1));
+        Thread.sleep(1000);
+        update($message)
+    end*/
