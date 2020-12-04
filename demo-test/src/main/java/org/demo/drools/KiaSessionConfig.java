@@ -22,6 +22,9 @@ public class KiaSessionConfig {
         kieFileSystem.write(ResourceFactory.newClassPathResource(RULES_PATH + "test.drl", "UTF-8"));
         return kieFileSystem;
     }
+    public static <T extends Runnable> T t(T t){
+        return t;
+    }
 
 //    private Resource[] getRuleFiles() throws IOException {
 //
