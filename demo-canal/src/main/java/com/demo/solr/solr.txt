@@ -1,0 +1,43 @@
+CREATE TABLE `solr_data` (
+  `id` varchar(11) NOT NULL,
+  `uuid` varchar(40) DEFAULT '',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB
+
+create procedure initData(count int)
+begin
+   declare i int default 2;
+	 while i<=count DO -- 循环开始
+				INSERT INTO `seata`.`solr_data`(`id`, `uuid`, `create_time`, `update_time`) VALUES (i, UUID(), now(), now());
+				set i=i+1;
+	 end while;
+end
+
+truncate solr_data;
+call initData(1000000)
+
+	<field name="uuid" type="text_general" indexed="true" stored="true"/>
+    <field name="update_time" type="pdate" indexed="true" stored="true"/>
+    <field name="create_time" type="pdate" indexed="true" stored="true"/>
+
+    <dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3307/seata?allowMultiQueries=true" user="root" password="123456" batchSize="-1" />
+      　　<document>
+        <entity name="solr_data1" query="select id ,uuid,create_time,update_time from solr_data">
+          <!--column的id是数据库的id,name的id是solr_data里面的id，id是必须，并且唯一的-->
+          <field column="id" name="id" />
+          <!--column的pname是数据库的pname字段,age是solr_data里面的age,下面配置同理-->
+          <field column="uuid" name="uuid" />
+          <field column="create_time" name="create_time" />
+          <field column="update_time" name="update_time" />
+        </entity>
+      </document>
+       solrconfig.xml
+        <!--引入DataImportHandler类的jar-->
+
+          <requestHandler name="/dataimport" class="org.apache.solr.handler.dataimport.DataImportHandler">
+           <lst name="defaults">
+              <str name="config">data-config.xml</str>
+            </lst>
+          </requestHandler>
