@@ -6,11 +6,12 @@ CREATE TABLE `solr_data` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB
 
+drop procedure if EXISTS `initData`;
 create procedure initData(count int)
 begin
    declare i int default 2;
 	 while i<=count DO -- 循环开始
-				INSERT INTO `seata`.`solr_data`(`id`, `uuid`, `create_time`, `update_time`) VALUES (i, UUID(), now(), now());
+				INSERT INTO `seata`.`solr_data`(`id`, `uuid`, `create_time`, `update_time`,`count`) VALUES (i, UUID(), now(), now(),FLOOR(RAND() * 10000));
 				set i=i+1;
 	 end while;
 end
@@ -41,3 +42,11 @@ call initData(1000000)
               <str name="config">data-config.xml</str>
             </lst>
           </requestHandler>
+
+[mysqld]
+# 打开binlog
+log-bin=mysql-bin
+# 选择ROW(行)模式
+binlog-format=ROW
+# 配置MySQL replaction需要定义，不要和canal的slaveId重复
+server_id=1
